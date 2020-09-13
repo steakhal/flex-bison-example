@@ -44,5 +44,23 @@ To run the executable output:
 ./output
 ```
 
+## Dockerfile for working environment
+The dockerfile in the root of the repository creates a docker image which has all the required tools building the source code.
+Includes:
+ - `gcc multilib` (compiling x86 binaries on x86_64 machines)
+ - `nasm` (compiling the generated assembly code)
+ - `bison` (generating the parser)
+ - `flex` (generating the lexer)
+ - `make`
+ - `ninja`
+ - `cmake`
+
+The recommended workflow:
+Build the image, and use it.
+You can easily mount the current directory under the `/tmp/project` inside the image to let the tools find the source files for building.
+ 1) `docker build . -t bison-flex`
+ 2) `docker run -it -v $(pwd):/tmp/project bison-flex  make test`
+
+
 ## License
 This software is licensed under the MIT license. See the *LICENSE* file for details.
